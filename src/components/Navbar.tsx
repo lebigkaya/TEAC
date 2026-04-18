@@ -1,94 +1,96 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Phone } from 'lucide-react';
+import CalendlyButton from './CalendlyButton';
+
+const navLinks = [
+  { name: 'Services', href: '#services' },
+  { name: 'Parcours', href: '#parcours' },
+  { name: 'À propos', href: '#about' },
+  { name: 'Témoignages', href: '#temoignages' },
+  { name: 'Contact', href: '#contact' },
+];
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    const handle = () => setIsScrolled(window.scrollY > 60);
+    handle();
+    window.addEventListener('scroll', handle, { passive: true });
+    return () => window.removeEventListener('scroll', handle);
   }, []);
 
-  const navLinks = [
-    { name: 'Accueil', href: '#home' },
-    { name: 'Nos Services', href: '#services' },
-    { name: 'Galerie', href: '#galerie' },
-    { name: 'Tarifs', href: '#tarifs' },
-    { name: 'Contact', href: '#contact' },
-  ];
+  const shell = isScrolled
+    ? 'bg-cream-50/95 backdrop-blur-md shadow-card py-3 text-wood-900'
+    : 'bg-transparent py-5 text-white';
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-white/80 backdrop-blur-md shadow-sm py-4' : 'bg-transparent py-6'
-      }`}
+      aria-label="Navigation principale"
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${shell}`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-        <a href="#home" className="text-2xl font-serif font-bold text-primary-800">
-          Ton Educ<br/><span className="text-sm font-sans font-medium text-neutral-600">au quotidien</span>
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+        <a href="#home" className="font-serif font-semibold text-lg md:text-xl leading-none">
+          Ton Éduc <span className="text-honey-500">au Quotidien</span>
         </a>
 
-        {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center space-x-8">
+        <nav className="hidden md:flex items-center gap-7" aria-label="Menu principal">
           {navLinks.map((link) => (
             <a
               key={link.name}
               href={link.href}
-              className="text-neutral-800 hover:text-primary-600 font-medium relative group transition-colors"
+              className="text-sm font-medium hover:text-terracotta-500 transition-colors"
             >
               {link.name}
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-500 transition-all group-hover:w-full"></span>
             </a>
           ))}
-          <a
-            href="#contact"
-            className="bg-accent-500 hover:bg-accent-600 text-white px-6 py-2.5 rounded-full font-medium transition-all hover:shadow-lg hover:-translate-y-0.5"
-          >
-            Prendre RDV
-          </a>
+          <CalendlyButton size="sm">Prendre rendez-vous</CalendlyButton>
         </nav>
 
-        {/* Mobile Menu Toggle */}
         <button
-          className="md:hidden text-neutral-800"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          type="button"
+          className="md:hidden w-11 h-11 flex items-center justify-center -mr-2"
+          onClick={() => setIsOpen((v) => !v)}
+          aria-expanded={isOpen}
+          aria-controls="mobile-menu"
+          aria-label={isOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
         >
-          {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+          {isOpen ? <X size={26} /> : <Menu size={26} />}
         </button>
       </div>
 
-      {/* Mobile Nav */}
       <AnimatePresence>
-        {isMobileMenuOpen && (
+        {isOpen && (
           <motion.div
+            id="mobile-menu"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-white border-t border-neutral-100 overflow-hidden"
+            transition={{ duration: 0.2 }}
+            className="md:hidden bg-cream-50 text-wood-900 border-t border-cream-200 overflow-hidden"
           >
-            <div className="px-4 py-6 flex flex-col space-y-4">
+            <div className="px-4 py-6 flex flex-col gap-1">
               {navLinks.map((link) => (
                 <a
                   key={link.name}
                   href={link.href}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="text-lg font-medium text-neutral-800 hover:text-primary-600"
+                  onClick={() => setIsOpen(false)}
+                  className="py-3 text-base font-medium hover:text-terracotta-500"
                 >
                   {link.name}
                 </a>
               ))}
               <a
-                href="#contact"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="bg-accent-500 text-white text-center px-6 py-3 rounded-full font-medium mt-4"
+                href="tel:+33779241915"
+                className="flex items-center gap-2 py-3 text-base font-medium text-wood-700"
               >
-                Prendre RDV
+                <Phone size={18} aria-hidden="true" /> 07 79 24 19 15
               </a>
+              <div className="pt-2">
+                <CalendlyButton fullWidth>Prendre rendez-vous</CalendlyButton>
+              </div>
             </div>
           </motion.div>
         )}
