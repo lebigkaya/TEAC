@@ -3,7 +3,7 @@ import { Phone, Check } from 'lucide-react';
 import CalendlyButton from './CalendlyButton';
 import { useMotionSafe } from '../hooks/useMotionSafe';
 
-const HERO_IMAGE = 'https://primary.jwwb.nl/public/y/y/r/temp-epgxyojzwxhwltvwdttk/img_3099-standard-kcvz2n.jpg';
+const HERO_IMAGE = '/images/teaq-header.webp';
 
 const trustPoints = [
   '1ère rencontre gratuite',

@@ -36,7 +36,7 @@ export default function Testimonials() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-2xl mx-auto mb-12 md:mb-16">
           <h2 className="font-serif font-semibold text-3xl md:text-4xl lg:text-5xl text-wood-900 mb-4">
-            Ils ont fait confiance à TEAC
+            Ils ont fait confiance à TEAQ
           </h2>
           <p className="text-wood-600 text-base md:text-lg">
             Merci aux familles qui m'ont laissé partager leur quotidien.

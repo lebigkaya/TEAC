@@ -1,4 +1,3 @@
-import CalendlyButton from './CalendlyButton';
 import CalendlyEmbed from './CalendlyEmbed';
 
 export default function CTAFinal() {
@@ -22,20 +21,15 @@ export default function CTAFinal() {
           </p>
         </div>
 
-        <div className="hidden md:block">
-          <CalendlyEmbed minHeight={700} />
-        </div>
-        <div className="md:hidden flex flex-col gap-3">
-          <CalendlyButton variant="accent" fullWidth size="lg">
-            Ouvrir le calendrier
-          </CalendlyButton>
-          <a
-            href="tel:+33779241915"
-            className="text-center text-cream-50/90 text-sm underline underline-offset-4"
-          >
-            Ou appelez directement : 07 79 24 19 15
+        {/* Calendrier intégré - mobile + desktop */}
+        <CalendlyEmbed />
+
+        <p className="mt-5 text-center text-cream-50/80 text-sm">
+          Le calendrier ne charge pas ?{' '}
+          <a href="tel:+33779241915" className="underline underline-offset-4 font-medium">
+            Appelez directement le 07 79 24 19 15
           </a>
-        </div>
+        </p>
       </div>
     </section>
   );
