@@ -1,0 +1,16 @@
+node_modules
+dist
+build
+.git
+.gitignore
+.env
+.env.local
+.env.*.local
+.DS_Store
+*.log
+.claude
+.superpowers
+docs
+README.md
+.vscode
+.idea
